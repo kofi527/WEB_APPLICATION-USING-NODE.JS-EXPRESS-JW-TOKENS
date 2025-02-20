@@ -7,16 +7,31 @@
 </head>
 <body>
     <header>
-    <h2><a href="/">THis is kennet application development</a></h2>
+    <h2><a href="/">THis is kenneth david application development</a></h2>
     <nav>
-        <a href="#">Log In</a>
+        <a href="/login">Log In</a>
     </nav>
    
     </header>
+   
     <main>
-        <h3>Hello this is the homepage</h3>
-        <p>this is a new web application for backend development</p>
+        <form action="/register" method="POST">
+        <% errors.forEach(error => { %>
+            <p class="notice"><%= error %></p>
+        <%}) %>
+        <fieldset>
+            <legend>create an account</legend>
+            <label for="username"><small>Username</small></label>"
+            <input type="text" id="username" name="username" autocomplete="off">
 
+            <label for="password"><small>password</small></label>"
+            <input type="text" id="password" name="password" autocomplete="off">
+
+            <br />
+            <button>Sign Up</button>
+
+        </fieldset>
+        </form>
     </main>
 
     <footer>
