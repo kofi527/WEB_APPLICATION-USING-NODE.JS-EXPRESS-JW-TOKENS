@@ -2,6 +2,24 @@
 //  with "Hello World from our cool app"
 
 const express = require("express")
+const db = require("better-sqlite3")("OurApp.db")
+//the below code will improve the performance of our database
+db.pragma("journal_mode = WAL")
+// database setup here
+const createTables = db.transaction(() => {
+    db.prepare(`
+        CREATE TABLE IF NOT EXISTS users (
+        id INTERGER PRIMARY KEY AUTOINCREMENT,
+        username STRING NOT NULL UNIQUE
+        password STRING NOT NULL
+        
+        )
+
+        `).run()
+
+})
+
+
 const app = express()
 //now we tell our express app to use ejs
 app.set("view engine", "ejs")
