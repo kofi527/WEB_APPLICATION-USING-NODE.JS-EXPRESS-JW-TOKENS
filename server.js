@@ -1,6 +1,7 @@
 //Your code is a simple Express.js server that listens on port 3000 and responds
 //  with "Hello World from our cool app"
-
+const bycrypt = require("bcryptjs")
+//we are requiring the express module
 const express = require("express")
 const db = require("better-sqlite3")("OurApp.db")
 //the below code will improve the performance of our database
