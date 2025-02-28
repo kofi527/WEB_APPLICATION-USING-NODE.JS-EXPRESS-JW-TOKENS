@@ -10,8 +10,8 @@ db.pragma("journal_mode = WAL")
 const createTables = db.transaction(() => {
     db.prepare(`
         CREATE TABLE IF NOT EXISTS users (
-        id INTERGER PRIMARY KEY AUTOINCREMENT,
-        username STRING NOT NULL UNIQUE
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username STRING NOT NULL UNIQUE,
         password STRING NOT NULL
         
         )
@@ -19,7 +19,7 @@ const createTables = db.transaction(() => {
         `).run()
 
 })
-
+createTables()
 
 const app = express()
 //now we tell our express app to use ejs
@@ -71,10 +71,21 @@ req.body.username = req.body.username.trim()
     
     if (errors.length) {
         return res.render("homepage", {errors})
-    } else {
-        res.send("Thank you for filling out the form")
-    }
-// save the new user into a database 
+    } 
+    // save the new user into a database 
+    // hash the password
+    const salt = bycrypt.genSaltSync(10)
+    req.body.password = bycrypt.hashSync(req.body.password, salt)
+
+    const ourStatement = db.prepare("INSERT INTO users (username, password) VALUES (?, ?)")
+    ourStatement.run(req.body.username, req.body.password)
+    
+    
+    
+    
+    res.send("Thank you for filling out the form")
+    
+
 
 //log the user in by giving him a cookeie
 
