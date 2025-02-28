@@ -81,6 +81,14 @@ req.body.username = req.body.username.trim()
     ourStatement.run(req.body.username, req.body.password)
     
     //log the user in by giving him a cookeie
+    res.cookie("Backend webapplication","supertopsecretvalue", {
+    // This is made so that client side javascript cannot access the cookie    
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+        maxAge: 1000 * 60 * 60 * 24 
+
+    })
     
     
     
