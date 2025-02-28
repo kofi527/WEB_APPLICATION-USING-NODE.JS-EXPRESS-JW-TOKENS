@@ -80,6 +80,7 @@ req.body.username = req.body.username.trim()
     const ourStatement = db.prepare("INSERT INTO users (username, password) VALUES (?, ?)")
     ourStatement.run(req.body.username, req.body.password)
     
+    //log the user in by giving him a cookeie
     
     
     
@@ -87,7 +88,7 @@ req.body.username = req.body.username.trim()
     
 
 
-//log the user in by giving him a cookeie
+
 
 })
 
