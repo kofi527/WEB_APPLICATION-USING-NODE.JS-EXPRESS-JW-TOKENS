@@ -1,5 +1,10 @@
 //Your code is a simple Express.js server that listens on port 3000 and responds
 //  with "Hello World from our cool app"
+
+require("dotenv").config()
+//
+const jwt = require("jsonwebtoken")
+
 const bycrypt = require("bcryptjs")
 //we are requiring the express module
 const express = require("express")
@@ -80,6 +85,16 @@ req.body.username = req.body.username.trim()
     const ourStatement = db.prepare("INSERT INTO users (username, password) VALUES (?, ?)")
     ourStatement.run(req.body.username, req.body.password)
     
+    const ourTokenValue = jwt.sign({skyColor: "blue", userid: 4}, process.env.JWT_SECRET)
+
+    //log the user in by giving him a cookeie
+    res.cookie("Backend_webapplication","supertopsecretvalue", {
+        // This is made so that client side javascript cannot access the cookie    
+            httpOnly: true,
+            secure: true,
+            sameSite: "strict",
+            maxAge: 1000 * 60 * 60 * 24 
+    });
     
     
     
