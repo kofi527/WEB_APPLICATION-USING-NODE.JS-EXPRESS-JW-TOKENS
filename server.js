@@ -85,6 +85,7 @@ req.body.username = req.body.username.trim()
     if (errors.length) {
         return res.render("homepage", {errors})
     } 
+<<<<<<< Updated upstream
     // save the new user into a database 
     // hash the password
     const salt = bycrypt.genSaltSync(10)
@@ -119,8 +120,16 @@ req.body.username = req.body.username.trim()
     res.send("Thank you for filling out david the form")
     
 
+=======
+    
+// save the new user into a database 
+const ourStatement = db.prepare("INSERT INTO users (username, password) VALUES (?, ?)")
+ourStatement.run(req.body.username, req.body.password)  
+>>>>>>> Stashed changes
 
 //log the user in by giving him a cookeie
+
+res.send("Thank you for registering")
 
 })
 
