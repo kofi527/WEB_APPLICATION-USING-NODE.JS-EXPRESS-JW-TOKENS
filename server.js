@@ -6,6 +6,7 @@ require("dotenv").config()
 const jwt = require("jsonwebtoken")
 
 const bycrypt = require("bcryptjs")
+const cookieParser = require("cookie-parser")
 //we are requiring the express module
 const express = require("express")
 const db = require("better-sqlite3")("OurApp.db")
@@ -44,7 +45,8 @@ app.use(function (req, res, next) {
    } catch (error) {
         req.user = false
    }
-
+   res.locals.user = req.user
+   console.log(req.user)
     next()
 })
 
@@ -85,47 +87,7 @@ req.body.username = req.body.username.trim()
     if (errors.length) {
         return res.render("homepage", {errors})
     } 
-<<<<<<< Updated upstream
-    // save the new user into a database 
-    // hash the password
-    const salt = bycrypt.genSaltSync(10)
-    req.body.password = bycrypt.hashSync(req.body.password, salt)
 
-    const ourStatement = db.prepare("INSERT INTO users (username, password) VALUES (?, ?)")
-   const result = ourStatement.run(req.body.username, req.body.password)
-
-   const lookupStatement = db.prepare("SELECT * FROM users WHERE ROWID = ?")
-    const ourUser = lookupStatement.get(result.lastInsertRowid)
-
-    
-    const ourTokenValue = jwt.sign({
-        exp: Math.floor(Date.now() /1000) + 60 * 60 * 24 ,
-         skyColor: "blue", 
-         userid: ourUser.id, 
-         username: ourUser.username
-        }, 
-         process.env.JWT_SECRET)
-
-    //log the user in by giving him a cookeie
-    res.cookie("Backend_webapplication","ourTokenValue", {
-        // This is made so that client side javascript cannot access the cookie    
-            httpOnly: true,
-            secure: true,
-            sameSite: "strict",
-            maxAge: 1000 * 60 * 60 * 24 
-    });
-    
-    
-    
-    res.send("Thank you for filling out david the form")
-    
-
-=======
-    
-// save the new user into a database 
-const ourStatement = db.prepare("INSERT INTO users (username, password) VALUES (?, ?)")
-ourStatement.run(req.body.username, req.body.password)  
->>>>>>> Stashed changes
 
 //log the user in by giving him a cookeie
 
