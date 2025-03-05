@@ -37,6 +37,14 @@ app.use(express.static("public"))
 //this is a function that runs before our routes
 app.use(function (req, res, next) {
     res.locals.errors = []
+  // try to decode incoming cookie
+    try{
+    const decoded = jwt.verify(req.cookies.Backend_webapplication, process.env.JWT_SECRET)
+
+   } catch (error) {
+        req.user = false
+   }
+
     next()
 })
 
@@ -83,12 +91,22 @@ req.body.username = req.body.username.trim()
     req.body.password = bycrypt.hashSync(req.body.password, salt)
 
     const ourStatement = db.prepare("INSERT INTO users (username, password) VALUES (?, ?)")
-    ourStatement.run(req.body.username, req.body.password)
+   const result = ourStatement.run(req.body.username, req.body.password)
+
+   const lookupStatement = db.prepare("SELECT * FROM users WHERE ROWID = ?")
+    const ourUser = lookupStatement.get(result.lastInsertRowid)
+
     
-    const ourTokenValue = jwt.sign({skyColor: "blue", userid: 4}, process.env.JWT_SECRET)
+    const ourTokenValue = jwt.sign({
+        exp: Math.floor(Date.now() /1000) + 60 * 60 * 24 ,
+         skyColor: "blue", 
+         userid: ourUser.id, 
+         username: ourUser.username
+        }, 
+         process.env.JWT_SECRET)
 
     //log the user in by giving him a cookeie
-    res.cookie("Backend_webapplication","supertopsecretvalue", {
+    res.cookie("Backend_webapplication","ourTokenValue", {
         // This is made so that client side javascript cannot access the cookie    
             httpOnly: true,
             secure: true,
