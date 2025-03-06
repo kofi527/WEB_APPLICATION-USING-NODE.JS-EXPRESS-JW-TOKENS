@@ -36,6 +36,7 @@ app.use(express.urlencoded({extended: false}))
 app.use(express.static("public"))
 //this is what we call middleware
 //this is a function that runs before our routes
+app.use(cookieParser())
 app.use(function (req, res, next) {
     res.locals.errors = []
   // try to decode incoming cookie
