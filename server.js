@@ -5,8 +5,8 @@ require("dotenv").config()
 //
 const jwt = require("jsonwebtoken")
 
-const bycrypt = require("bcryptjs")
-const cookieParser = require("cookie-parser")
+const bcrypt = require("bcrypt")
+const cookieParser = require('cookie-parser')
 //we are requiring the express module
 const express = require("express")
 const db = require("better-sqlite3")("OurApp.db")
@@ -20,7 +20,7 @@ const createTables = db.transaction(() => {
         username STRING NOT NULL UNIQUE,
         password STRING NOT NULL
         
-        )
+    )
 
         `).run()
 
@@ -89,8 +89,29 @@ req.body.username = req.body.username.trim()
         return res.render("homepage", {errors})
     } 
 
+// save the new user into the database
+const salt = bcrypt.genSaltSync(10)
 
+req.body.password = bcrypt.hashSync(req.body.password, salt)
+
+const ouStatement = db.prepare("INSERT INTO users (username, password) VALUES (?, ?)")
+const result = ouStatement.run(req.body.username, req.body.password)
+    
+const lookupStatement = db.prepare("SELECT * FROM users WHERE id = ?")
+const ourUser = lookupStatement.get(result.lastInsertRowid)
+
+    //log the user in by giving him a cookeie
+    //const ourToken = jwt
 //log the user in by giving him a cookeie
+    const ourTokenValue = jwt.sign({exp: Math.floor(Date.now()/ 1000)+ 60 * 60 * 24 , skyColor: "blue", userid: ourUser.id, username: ourUser.username}, process.env.JWT_SECRET)
+
+res.cookie("ourSimpleApp", "ourTokenValue", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "strict",
+   //how long the cookie will expire
+    maxAge: 1000 * 60 * 60 * 24 * 7
+})
 
 res.send("Thank you for registering")
 
