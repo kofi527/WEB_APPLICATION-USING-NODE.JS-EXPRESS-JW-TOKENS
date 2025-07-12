@@ -15,4 +15,7 @@ The packgage. json file is included in the documents to help keep track of all d
 3. Running npm init -y creates a package json file in our folder
 
   ![2  running npm init -y creates a package j son file in our folder](https://github.com/user-attachments/assets/c8d81cad-56e2-430e-9f22-d19f57dc1a2a)
- 
+
+4. Express adding a dependency at the Package json file 
+   ![3  express has been added a dependency at the package json file](https://github.com/user-attachments/assets/c03aeef4-7cfb-4514-aa44-fee6b1943cf0)
+  
