@@ -19,3 +19,5 @@ The packgage. json file is included in the documents to help keep track of all d
 4. Express adding a dependency at the Package json file is a key factor is handling the various dependencies
    ![3  express has been added a dependency at the package json file](https://github.com/user-attachments/assets/c03aeef4-7cfb-4514-aa44-fee6b1943cf0)
   
+5. Writing a code for our ports
+   ![4 this is the first line of javascript code which will be viewed on port 3000](https://github.com/user-attachments/assets/64259c11-1a5f-4ff9-87c1-bdd40978d2bd)
