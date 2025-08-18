@@ -21,3 +21,7 @@ The packgage. json file is included in the documents to help keep track of all d
   
 5. Writing a code for our ports
    ![4 this is the first line of javascript code which will be viewed on port 3000](https://github.com/user-attachments/assets/64259c11-1a5f-4ff9-87c1-bdd40978d2bd)
+
+6. we install and add new packages
+![5 we install and add a new packagage call nodemon which is added to the depencies](https://github.com/user-attachments/assets/24ab3557-cd0f-4e29-839f-d1183a6ed95d)
+
